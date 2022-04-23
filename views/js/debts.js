@@ -1,17 +1,17 @@
-/*$.ajax({
+// $.ajax({
 
-	"url":"ajax/tables/incomes.ajax.php",
-	success: function(response){
+// 	"url":"ajax/tables/debts.ajax.php",
+// 	success: function(response){
 		
-		console.log("response", response);
+// 		console.log("response", response);
 
-	}
+// 	}
 
-})*/
+// })
 
 
-$('#tableIncomes').DataTable({
-	"ajax": "ajax/tables/incomes.ajax.php",
+$('#tableDebts').DataTable({
+	"ajax": "ajax/tables/debts.ajax.php",
 	"dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
 	"<'table-responsive'tr>" +
 	"<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
@@ -51,19 +51,136 @@ window.addEventListener('load', function() {
     });
 }, false);
 
+
 /*=============================================
-Editar ingreso
+Activar o desactivar deudas
 =============================================*/
 
-$(document).on("click", ".editIncome", function(){
+$(document).on("click", ".btnActivate", function(){
 
-	var sIncomeEdit = $(this).attr("sincome");
+	var sDebtActive = $(this).attr("sDebt");
+	var statusDebt = $(this).attr("statusDebt");
+	var button = $(this);
+
+	var data = new FormData();
+	data.append("sDebtActive", sDebtActive);
+	data.append("statusDebt", statusDebt);
+
+	$.ajax({
+
+		url:"ajax/process/debt.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function(response){
+
+			if(response == "ok"){
+
+				if(statusDebt == 0){
+
+					$(button).removeClass('btn-success');
+					$(button).addClass('btn-dark');
+					$(button).html('Inactivo');
+					$(button).attr('statusDebt', 1);
+
+				}else{
+
+					$(button).addClass('btn-success');
+					$(button).removeClass('btn-dark');
+					$(button).html('Activo');
+					$(button).attr('statusDebt',0);
+
+				}
+
+			}
+
+		}
+
+	})  
+
+})
+
+/*=============================================
+Finalizar deuda
+=============================================*/
+
+$(document).on("click", ".endDebt", function(){
+
+	var sDebtEnd = $(this).attr("sdebt");
+
+	swal({
+		title: '¿Está seguro de terminar esta deuda?',
+		text: "¡Si no lo está puede cancelar la acción!",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Si, terminar deuda!'
+	}).then(function(result){
+
+		if(result.value){
+
+			var data = new FormData();
+			data.append("sDebtEnd", sDebtEnd);
+
+			$.ajax({
+
+				url:"ajax/process/debt.ajax.php",
+				method: "POST",
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success:function(response){
+
+					if(response == "ok"){
+
+						swal({
+							type: "success",
+							title: "¡CORRECTO!",
+							text: "El deuda ha sido finalizada",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar",
+							closeOnConfirm: false
+						}).then(function(result){
+
+							if(result.value){
+
+								window.location = "debts";
+
+							}
+
+						})
+
+					}
+
+				}
+
+			})  
+
+		}
+
+	})
+
+})
+
+
+/*=============================================
+Editar egreso
+=============================================*/
+
+$(document).on("click", ".editDebt", function(){
+
+	var sDebtUpdate = $(this).attr("sdebt");
 	
 	var data = new FormData();
-  	data.append("sIncomeEdit", sIncomeEdit);
+  	data.append("sDebtUpdate", sDebtUpdate);
 
   	$.ajax({
-  		url:"ajax/process/income.ajax.php",
+  		url:"ajax/process/debt.ajax.php",
   		method: "POST",
   		data: data,
   		cache: false,
@@ -112,9 +229,9 @@ $(document).on("click", ".editIncome", function(){
 
 		    })	
 
-    		$('input[name="editCode"]').val(response["sincome"]);
-    		$('input[name="editReference"]').val(response["reference"]);
+    		$('input[name="editCode"]').val(response["sdebt"]);
     		$('input[name="editDate"]').val(response["date"]);
+    		$('input[name="editQuota"]').val(response["quota"]);
     		$('input[name="editValue"]').val(response["value"]);
     		$('textarea[name="editDescription"]').val(response["description"]);
 
@@ -126,32 +243,32 @@ $(document).on("click", ".editIncome", function(){
 
 
 /*=============================================
-Eliminar ingreso
+Eliminar deuda
 =============================================*/
 
-$(document).on("click", ".deleteIncome", function(){
+$(document).on("click", ".deleteDebt", function(){
 
-	var iIncomeDelete = $(this).attr("sincome");
+	var iDebtDelete = $(this).attr("sdebt");
 
 	swal({
-		title: '¿Está seguro de eliminar este ingreso?',
+		title: '¿Está seguro de eliminar esta deuda?',
 		text: "¡Si no lo está puede cancelar la acción!",
 		type: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancelar',
-		confirmButtonText: 'Si, eliminar ingreso!'
+		confirmButtonText: 'Si, eliminar deuda!'
 	}).then(function(result){
 
 		if(result.value){
 
 			var data = new FormData();
-			data.append("iIncomeDelete", iIncomeDelete);
+			data.append("iDebtDelete", iDebtDelete);
 
 			$.ajax({
 
-				url:"ajax/process/income.ajax.php",
+				url:"ajax/process/debt.ajax.php",
 				method: "POST",
 				data: data,
 				cache: false,
@@ -164,7 +281,7 @@ $(document).on("click", ".deleteIncome", function(){
 						swal({
 							type: "success",
 							title: "¡CORRECTO!",
-							text: "El ingreso ha sido borrado correctamente",
+							text: "la deuda ha sido borrada correctamente",
 							showConfirmButton: true,
 							confirmButtonText: "Cerrar",
 							closeOnConfirm: false
@@ -172,7 +289,7 @@ $(document).on("click", ".deleteIncome", function(){
 
 							if(result.value){
 
-								window.location = "incomes";
+								window.location = "debts";
 
 							}
 

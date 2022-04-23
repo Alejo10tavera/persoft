@@ -93,15 +93,15 @@ class ModelUsers{
 	=            Editar usuario            =
 	======================================*/
 	
-	static public function mdlEditUser($table, $datos){
+	static public function mdlEditUser($table, $data){
 
 		$stmt = Connection::connect()->prepare("UPDATE $table SET name = :name, user = :user, password = :password,  type_user = :type_user WHERE suser = :suser");
 
-		$stmt->bindParam(":name", $datos["name"], PDO::PARAM_STR);
-		$stmt->bindParam(":user", $datos["user"], PDO::PARAM_STR);
-		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt->bindParam(":type_user", $datos["type_user"], PDO::PARAM_STR);
-		$stmt->bindParam(":suser", $datos["suser"], PDO::PARAM_STR);
+		$stmt->bindParam(":name", $data["name"], PDO::PARAM_STR);
+		$stmt->bindParam(":user", $data["user"], PDO::PARAM_STR);
+		$stmt->bindParam(":password", $data["password"], PDO::PARAM_STR);
+		$stmt->bindParam(":type_user", $data["type_user"], PDO::PARAM_STR);
+		$stmt->bindParam(":suser", $data["suser"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -156,14 +156,14 @@ class ModelUsers{
 	=            Eliminar usuario            =
 	========================================*/
 	
-	static public function mdlDeleteUser($table, $datos){
+	static public function mdlDeleteUser($table, $data){
 
 		$stmt = Connection::connect()->prepare("UPDATE $table SET user = :user, status = :status,  bdelete = :bdelete WHERE suser = :suser");
 
-		$stmt->bindParam(":user", $datos["user"], PDO::PARAM_STR);
-		$stmt->bindParam(":status", $datos["status"], PDO::PARAM_INT);
-		$stmt->bindParam(":bdelete", $datos["bdelete"], PDO::PARAM_INT);
-		$stmt->bindParam(":suser", $datos["suser"], PDO::PARAM_STR);
+		$stmt->bindParam(":user", $data["user"], PDO::PARAM_STR);
+		$stmt->bindParam(":status", $data["status"], PDO::PARAM_INT);
+		$stmt->bindParam(":bdelete", $data["bdelete"], PDO::PARAM_INT);
+		$stmt->bindParam(":suser", $data["suser"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 

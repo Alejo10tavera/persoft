@@ -2,13 +2,13 @@
 
 require_once "connection.php";
 
-class ModelIncomes{
+class ModelExpenses{
 
 	/*========================================
-	=            Mostrar ingresos            =
+	=            Mostrar egresos            =
 	========================================*/
 	
-	static public function mdlViewIncomes($table, $item, $value, $item_, $value_){
+	static public function mdlViewExpenses($table, $item, $value, $item_, $value_){
 
 		if($item != null && $value != null){
 
@@ -39,7 +39,7 @@ class ModelIncomes{
 
 	}
 
-	static public function mdlViewIncomesTotal($table){
+	static public function mdlViewExpensesTotal($table){
 
 		$stmt = Connection::connect()->prepare("SELECT * FROM $table");
 
@@ -53,17 +53,17 @@ class ModelIncomes{
 
 	}
 	
-	/*=====  End of Mostrar ingresos  ======*/
+	/*=====  End of Mostrar egresos  ======*/
 
 	/*=======================================
-	=            Agregar ingreso            =
+	=            Agregar egreso            =
 	=======================================*/
 	
-	static public function mdlCreateIncome($table, $data){
+	static public function mdlCreateExpenses($table, $data){
 
-		$stmt = Connection::connect()->prepare("INSERT INTO $table(sincome, date, icategory, iperson, reference, value, description, status, bdelete) VALUES (:sincome, :date, :icategory, :iperson, :reference, :value, :description, :status, :bdelete)");
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(sexpenses, date, icategory, iperson, reference, value, description, status, bdelete) VALUES (:sexpenses, :date, :icategory, :iperson, :reference, :value, :description, :status, :bdelete)");
 
-		$stmt->bindParam(":sincome", $data["sincome"], PDO::PARAM_STR);
+		$stmt->bindParam(":sexpenses", $data["sexpenses"], PDO::PARAM_STR);
 		$stmt->bindParam(":date", $data["date"], PDO::PARAM_STR);
 		$stmt->bindParam(":icategory", $data["icategory"], PDO::PARAM_STR);
 		$stmt->bindParam(":iperson", $data["iperson"], PDO::PARAM_STR);
@@ -89,15 +89,15 @@ class ModelIncomes{
 
 	}
 	
-	/*=====  End of Agregar ingreso  ======*/
+	/*=====  End of Agregar egreso  ======*/
 	
 	/*======================================
-	=            Editar ingreso            =
+	=            Editar egreso            =
 	======================================*/
 	
-	static public function mdlEditIncome($table, $data){
+	static public function mdlEditExpenses($table, $data){
 
-		$stmt = Connection::connect()->prepare("UPDATE $table SET date = :date, icategory = :icategory,  iperson = :iperson, reference = :reference, value = :value, description = :description WHERE sincome = :sincome");
+		$stmt = Connection::connect()->prepare("UPDATE $table SET date = :date, icategory = :icategory,  iperson = :iperson, reference = :reference, value = :value, description = :description WHERE sexpenses = :sexpenses");
 
 		$stmt->bindParam(":date", $data["date"], PDO::PARAM_STR);
 		$stmt->bindParam(":icategory", $data["icategory"], PDO::PARAM_INT);
@@ -105,7 +105,7 @@ class ModelIncomes{
 		$stmt->bindParam(":reference", $data["reference"], PDO::PARAM_STR);
 		$stmt->bindParam(":value", $data["value"], PDO::PARAM_STR);
 		$stmt->bindParam(":description", $data["description"], PDO::PARAM_STR);
-		$stmt->bindParam(":sincome", $data["sincome"], PDO::PARAM_STR);
+		$stmt->bindParam(":sexpenses", $data["sexpenses"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -124,19 +124,19 @@ class ModelIncomes{
 
 	}
 	
-	/*=====  End of Editar ingreso  ======*/
+	/*=====  End of Editar egreso  ======*/
 
 	/*========================================
-	=            Eliminar ingreso            =
+	=            Eliminar egreso            =
 	========================================*/
 	
-	static public function mdlDeleteIncome($table, $data){
+	static public function mdlDeleteExpenses($table, $data){
 
-		$stmt = Connection::connect()->prepare("UPDATE $table SET status = :status,  bdelete = :bdelete WHERE sincome = :sincome");
+		$stmt = Connection::connect()->prepare("UPDATE $table SET status = :status,  bdelete = :bdelete WHERE sexpenses = :sexpenses");
 
 		$stmt->bindParam(":status", $data["status"], PDO::PARAM_INT);
 		$stmt->bindParam(":bdelete", $data["bdelete"], PDO::PARAM_INT);
-		$stmt->bindParam(":sincome", $data["sincome"], PDO::PARAM_STR);
+		$stmt->bindParam(":sexpenses", $data["sexpenses"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -155,7 +155,7 @@ class ModelIncomes{
 
 	}
 	
-	/*=====  End of Eliminar ingreso  ======*/
+	/*=====  End of Eliminar egreso  ======*/
 	
 	
 }

@@ -1,6 +1,6 @@
 <?php 
 
-class ControllerIncomes{
+class ControllerExpenses{
 
 	/*===========================================
 	=            Mostrar información            =
@@ -8,7 +8,7 @@ class ControllerIncomes{
 	
 	static public function ctrViewData($table, $item, $value, $item_, $value_){
 
-		$response = ModelIncomes::mdlViewIncomes($table, $item, $value, $item_, $value_);
+		$response = ModelExpenses::mdlViewExpenses($table, $item, $value, $item_, $value_);
 
 		return $response;
 
@@ -17,10 +17,10 @@ class ControllerIncomes{
 	/*=====  End of Mostrar información  ======*/
 
 	/*=======================================
-	=            Agregar ingreso            =
+	=            Agregar egreso            =
 	=======================================*/
 	
-	static public function ctrCreateIncome(){
+	static public function ctrCreateExpenses(){
 
 		if(isset($_POST['addReference'])){
 
@@ -28,13 +28,13 @@ class ControllerIncomes{
 			   preg_match('/^[0-9.]+$/', $_POST["addValue"]) &&
 			   preg_match('/^[\/\=\\&\\$\\;\\_\\|\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["addDescription"])){
 
-			   	$table = "incomes";
+			   	$table = "expenses";
 
-			   	$responseTotal = ModelIncomes::mdlViewIncomesTotal($table);
+			   	$responseTotal = ModelExpenses::mdlViewExpensesTotal($table);
 
-			   	$sincome = str_pad(count($responseTotal) + 1, 4, '0', STR_PAD_LEFT);
+			   	$sexpenses = str_pad(count($responseTotal) + 1, 4, '0', STR_PAD_LEFT);
 
-			   	$data = array("sincome" => $sincome,
+			   	$data = array("sexpenses" => $sexpenses,
 							  "date" => $_POST["addDate"],
 							  "icategory" =>  $_POST["addCategory"],
 							  "iperson" =>  $_POST["addPerson"],
@@ -44,7 +44,7 @@ class ControllerIncomes{
 							  "status" => 1,
 							  "bdelete" => 0);
 
-			   	$response = ModelIncomes::mdlCreateIncome($table, $data);
+			   	$response = ModelExpenses::mdlCreateExpenses($table, $data);
 				
 				if($response == "ok"){
 
@@ -53,14 +53,14 @@ class ControllerIncomes{
 						swal({
 								type:"success",
 							  	title: "¡CORRECTO!",
-							  	text: "El ingreso ha sido creado correctamente",
+							  	text: "El egreso ha sido creado correctamente",
 							  	showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 							  
 						}).then(function(result){
 
 								if(result.value){   
-								    window.location = "incomes";
+								    window.location = "expenses";
 								} 
 						});
 
@@ -98,13 +98,13 @@ class ControllerIncomes{
 
 	}
 	
-	/*=====  End of Agregar ingreso  ======*/
+	/*=====  End of Agregar egreso  ======*/
 	
 	/*======================================
-	=            Editar ingreso            =
+	=            Editar egreso            =
 	======================================*/
 	
-	static public function ctrEditIncome(){
+	static public function ctrEditExpenses(){
 
 		if(isset($_POST['editCode'])){
 
@@ -112,9 +112,9 @@ class ControllerIncomes{
 			   preg_match('/^[0-9.]+$/', $_POST["editValue"]) &&
 			   preg_match('/^[\/\=\\&\\$\\;\\_\\|\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editDescription"])){
 
-			   	$table = "incomes";
+			   	$table = "expenses";
 
-			   	$data = array("sincome" => $_POST["editCode"],
+			   	$data = array("sexpenses" => $_POST["editCode"],
 							  "date" => $_POST["editDate"],
 							  "icategory" =>  $_POST["editCategory"],
 							  "iperson" =>  $_POST["editPerson"],
@@ -122,7 +122,7 @@ class ControllerIncomes{
 							  "value" =>  $_POST["editValue"],
 							  "description" =>  $_POST["editDescription"]);
 
-			   	$response = ModelIncomes::mdlEditIncome($table, $data);
+			   	$response = ModelExpenses::mdlEditExpenses($table, $data);
 				
 				if($response == "ok"){
 
@@ -131,14 +131,14 @@ class ControllerIncomes{
 						swal({
 								type:"success",
 							  	title: "¡CORRECTO!",
-							  	text: "El ingreso ha sido creado correctamente",
+							  	text: "El egreso ha sido creado correctamente",
 							  	showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 							  
 						}).then(function(result){
 
 								if(result.value){   
-								    window.location = "incomes";
+								    window.location = "expenses";
 								} 
 						});
 
@@ -176,26 +176,26 @@ class ControllerIncomes{
 
 	}
 	
-	/*=====  End of Editar ingreso  ======*/
+	/*=====  End of Editar egreso  ======*/
 	
 	/*========================================
-	=            Eliminar ingreso            =
+	=            Eliminar egreso            =
 	========================================*/
 	
-	static public function ctrDeleteIncome($sincome){
+	static public function ctrDeleteExpenses($sexpenses){
 
-		$table = "incomes";
+		$table = "expenses";
 
-		$data = array("sincome" => $sincome,
+		$data = array("sexpenses" => $sexpenses,
 					  "status" =>  0,
 					  "bdelete" =>  1);
 
-		$response = ModelIncomes::mdlDeleteIncome($table, $data);
+		$response = ModelExpenses::mdlDeleteExpenses($table, $data);
 
 		return $response;
 
 	}
 	
-	/*=====  End of Eliminar ingreso  ======*/
+	/*=====  End of Eliminar egreso  ======*/
 	
 }

@@ -10,8 +10,8 @@
 })*/
 
 
-$('#tableIncomes').DataTable({
-	"ajax": "ajax/tables/incomes.ajax.php",
+$('#tableExpenses').DataTable({
+	"ajax": "ajax/tables/expenses.ajax.php",
 	"dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
 	"<'table-responsive'tr>" +
 	"<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
@@ -52,18 +52,18 @@ window.addEventListener('load', function() {
 }, false);
 
 /*=============================================
-Editar ingreso
+Editar egreso
 =============================================*/
 
-$(document).on("click", ".editIncome", function(){
+$(document).on("click", ".editExpense", function(){
 
-	var sIncomeEdit = $(this).attr("sincome");
+	var sExpensesEdit = $(this).attr("sexpenses");
 	
 	var data = new FormData();
-  	data.append("sIncomeEdit", sIncomeEdit);
+  	data.append("sExpensesEdit", sExpensesEdit);
 
   	$.ajax({
-  		url:"ajax/process/income.ajax.php",
+  		url:"ajax/process/expenses.ajax.php",
   		method: "POST",
   		data: data,
   		cache: false,
@@ -112,7 +112,7 @@ $(document).on("click", ".editIncome", function(){
 
 		    })	
 
-    		$('input[name="editCode"]').val(response["sincome"]);
+    		$('input[name="editCode"]').val(response["sexpenses"]);
     		$('input[name="editReference"]').val(response["reference"]);
     		$('input[name="editDate"]').val(response["date"]);
     		$('input[name="editValue"]').val(response["value"]);
@@ -126,32 +126,32 @@ $(document).on("click", ".editIncome", function(){
 
 
 /*=============================================
-Eliminar ingreso
+Eliminar egreso
 =============================================*/
 
-$(document).on("click", ".deleteIncome", function(){
+$(document).on("click", ".deleteExpenses", function(){
 
-	var iIncomeDelete = $(this).attr("sincome");
+	var iExpensesDelete = $(this).attr("sexpenses");
 
 	swal({
-		title: '¿Está seguro de eliminar este ingreso?',
+		title: '¿Está seguro de eliminar este egreso?',
 		text: "¡Si no lo está puede cancelar la acción!",
 		type: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancelar',
-		confirmButtonText: 'Si, eliminar ingreso!'
+		confirmButtonText: 'Si, eliminar egreso!'
 	}).then(function(result){
 
 		if(result.value){
 
 			var data = new FormData();
-			data.append("iIncomeDelete", iIncomeDelete);
+			data.append("iExpensesDelete", iExpensesDelete);
 
 			$.ajax({
 
-				url:"ajax/process/income.ajax.php",
+				url:"ajax/process/expenses.ajax.php",
 				method: "POST",
 				data: data,
 				cache: false,
@@ -164,7 +164,7 @@ $(document).on("click", ".deleteIncome", function(){
 						swal({
 							type: "success",
 							title: "¡CORRECTO!",
-							text: "El ingreso ha sido borrado correctamente",
+							text: "El egreso ha sido borrado correctamente",
 							showConfirmButton: true,
 							confirmButtonText: "Cerrar",
 							closeOnConfirm: false
@@ -172,7 +172,7 @@ $(document).on("click", ".deleteIncome", function(){
 
 							if(result.value){
 
-								window.location = "incomes";
+								window.location = "expenses";
 
 							}
 

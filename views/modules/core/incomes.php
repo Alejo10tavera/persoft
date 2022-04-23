@@ -21,13 +21,12 @@
                             <tr>
                                 <th class="checkbox-column text-center"> Id </th>
                                 <th>Código</th>
+                                <th>Referencia</th>
                                 <th>Fecha</th>
                                 <th>Categoría</th>
-                                <th>Tercero</th>
-                                <th>Referencia</th>
+                                <th>Tercero</th>                                
                                 <th>Valor</th>
                                 <th>Descripción</th>
-                                <th class="text-center">Estado</th>
                                 <th class="text-center dt-no-sorting">Acciones</th>
                             </tr>
                         </thead>
@@ -45,7 +44,7 @@
 <div class="modal fade modal-add-income" tabindex="-1" role="dialog" aria-labelledby="add-income" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <form class="needs-validation" novalidate action="javascript:void(0);">
+            <form class="needs-validation" novalidate method="post">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="add-income">Agregar ingreso</h5>
@@ -58,7 +57,7 @@
                     <div class="form-row">
                         <div class="col-md-8 mb-8">
                             <label for="addReference">Referencia ingreso</label>
-                            <input type="text" class="form-control" id="addReference" placeholder="Referencia ingreso" required>
+                            <input type="text" class="form-control" id="addReference" name="addReference" placeholder="Referencia ingreso" required>
                             <div class="valid-feedback">
                                 ¡Validado correctamente!
                             </div>
@@ -68,7 +67,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <label for="addDate">Fecha</label>
-                            <input type="date" class="form-control" id="addDate" placeholder="Referencia ingreso" required>
+                            <input type="date" class="form-control" id="addDate" name="addDate" placeholder="Referencia ingreso" required>
                             <div class="valid-feedback">
                                 ¡Validado correctamente!
                             </div>
@@ -80,7 +79,7 @@
                     <div class="form-row">
                         <div class="col-md-3 mb-4">
                             <label for="addCategory">Categoría</label>
-                            <select name="addCategory" class="form-control selectpicker" data-live-search="true" id="addCategory" required>
+                            <select name="addCategory" class="form-control selectpicker" data-live-search="true" id="addCategory" name="addCategory" required>
                                 <option value="">Seleccionar categoría</option>
                                 <?php 
 
@@ -110,7 +109,7 @@
                         </div>
                         <div class="col-md-5 mb-4">
                             <label for="addPerson">Persona</label>
-                            <select name="addPerson" class="form-control selectpicker" data-live-search="true" id="addPerson" required>
+                            <select name="addPerson" class="form-control selectpicker" data-live-search="true" id="addPerson" name="addPerson" required>
                                 <option value="">Seleccionar tercero</option>
                                 <?php 
 
@@ -140,7 +139,7 @@
 
                         <div class="col-md-4 mb-4">
                             <label for="addValue">Valor</label>
-                            <input type="number" class="form-control" id="addValue" placeholder="Valor" required>
+                            <input type="number" class="form-control" id="addValue" name="addValue" placeholder="Valor" required>
                             <div class="valid-feedback">
                                 ¡Validado correctamente!
                             </div>
@@ -151,7 +150,7 @@
 
                         <div class="col-md-12 mb-12">
                             <label for="addDescription">Descripción</label>
-                            <textarea cols="30" rows="4" class="form-control" id="addDescription" placeholder="Descripción" required></textarea>
+                            <textarea cols="30" rows="4" class="form-control" id="addDescription" name="addDescription" placeholder="Descripción" required></textarea>
                             <div class="valid-feedback">
                                 ¡Validado correctamente!
                             </div>
@@ -159,6 +158,160 @@
                                 Error en la validación.
                             </div>
                         </div>
+
+                        <?php 
+
+                            $createIncome = new ControllerIncomes();
+                            $createIncome -> ctrCreateIncome();
+
+                        ?>
+
+                    </div>
+                                        
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-default mt-2" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancelar</button>
+                    <button class="btn btn-outline-primary mt-2" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-edit-income" tabindex="-1" role="dialog" aria-labelledby="edit-income" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate method="post">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-income">Editar ingreso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label for="editCode">Código</label>
+                            <input type="text" class="form-control" id="editCode" name="editCode" readonly required>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-6">
+                            <label for="editReference">Referencia ingreso</label>
+                            <input type="text" class="form-control" id="editReference" name="editReference" placeholder="Referencia ingreso" required>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="editDate">Fecha</label>
+                            <input type="date" class="form-control" id="editDate" name="editDate" placeholder="Referencia ingreso" required>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-4">
+                            <label for="editCategory">Categoría</label>
+                            <select name="editCategory" class="form-control" data-live-search="true" id="editCategory" name="editCategory" required>
+                                <option class="editCategoryOption"></option>
+                                <?php 
+
+                                    $table = "categories";
+                                    $item = "";
+                                    $value = "";
+                                    $item_ = "bdelete";
+                                    $value_ = 0;
+
+                                    $response = ControllerUsers::ctrViewData($table, $item, $value, $item_, $value_);
+
+                                    foreach ($response as $key => $value) {
+
+                                        echo '<option value="'.$value["icategory"].'">'.$value["name"].'</option>';
+
+                                    }
+
+                                ?>
+                            </select>
+                            
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+                        <div class="col-md-5 mb-4">
+                            <label for="editPerson">Persona</label>
+                            <select name="editPerson" class="form-control" data-live-search="true" id="editPerson" name="editPerson" required>
+                                <option class="editPersonOption"></option>
+                                <?php 
+
+                                    $table = "persons";
+                                    $item = "";
+                                    $value = "";
+                                    $item_ = "bdelete";
+                                    $value_ = 0;
+
+                                    $response = ControllerUsers::ctrViewData($table, $item, $value, $item_, $value_);
+
+                                    foreach ($response as $key => $value) {
+
+                                        echo '<option value="'.$value["iperson"].'">'.$value["name"].'</option>';
+
+                                    }
+
+                                ?>
+                            </select>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-4">
+                            <label for="editValue">Valor</label>
+                            <input type="number" class="form-control" id="editValue" name="editValue" placeholder="Valor" required>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-12">
+                            <label for="editDescription">Descripción</label>
+                            <textarea cols="30" rows="4" class="form-control" id="editDescription" name="editDescription" placeholder="Descripción" required></textarea>
+                            <div class="valid-feedback">
+                                ¡Validado correctamente!
+                            </div>
+                            <div class="invalid-feedback">
+                                Error en la validación.
+                            </div>
+                        </div>
+
+                        <?php 
+
+                            $editIncome = new ControllerIncomes();
+                            $editIncome -> ctrEditIncome();
+
+                        ?>
 
                     </div>
                                         

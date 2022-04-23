@@ -1,6 +1,6 @@
 <?php 
 
-class ControllerIncomes{
+class ControllerDebts{
 
 	/*===========================================
 	=            Mostrar información            =
@@ -8,7 +8,7 @@ class ControllerIncomes{
 	
 	static public function ctrViewData($table, $item, $value, $item_, $value_){
 
-		$response = ModelIncomes::mdlViewIncomes($table, $item, $value, $item_, $value_);
+		$response = ModelDebts::mdlViewDebts($table, $item, $value, $item_, $value_);
 
 		return $response;
 
@@ -16,35 +16,36 @@ class ControllerIncomes{
 	
 	/*=====  End of Mostrar información  ======*/
 
-	/*=======================================
-	=            Agregar ingreso            =
-	=======================================*/
+	/*=====================================
+	=            Agregar deuda            =
+	=====================================*/
 	
-	static public function ctrCreateIncome(){
+	static public function ctrCreateDebt(){
 
-		if(isset($_POST['addReference'])){
+		if(isset($_POST['addDate'])){
 
-			if(preg_match('/^[-\\_\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["addReference"]) &&
+			if(preg_match('/^[-\\_\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["addDate"]) &&
 			   preg_match('/^[0-9.]+$/', $_POST["addValue"]) &&
 			   preg_match('/^[\/\=\\&\\$\\;\\_\\|\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["addDescription"])){
 
-			   	$table = "incomes";
+			   	$table = "debts";
 
-			   	$responseTotal = ModelIncomes::mdlViewIncomesTotal($table);
+			   	$responseTotal = ModelDebts::mdlViewDebtsTotal($table);
 
-			   	$sincome = str_pad(count($responseTotal) + 1, 4, '0', STR_PAD_LEFT);
+			   	$sdebt = str_pad(count($responseTotal) + 1, 4, '0', STR_PAD_LEFT);
 
-			   	$data = array("sincome" => $sincome,
+			   	$data = array("sdebt" => $sdebt,
 							  "date" => $_POST["addDate"],
 							  "icategory" =>  $_POST["addCategory"],
 							  "iperson" =>  $_POST["addPerson"],
-							  "reference" =>  $_POST["addReference"],
 							  "value" =>  $_POST["addValue"],
 							  "description" =>  $_POST["addDescription"],
+							  "quota" =>  $_POST["addQuota"],
+							  "process" => 1,
 							  "status" => 1,
 							  "bdelete" => 0);
 
-			   	$response = ModelIncomes::mdlCreateIncome($table, $data);
+			   	$response = ModelDebts::mdlCreateDebt($table, $data);
 				
 				if($response == "ok"){
 
@@ -53,14 +54,14 @@ class ControllerIncomes{
 						swal({
 								type:"success",
 							  	title: "¡CORRECTO!",
-							  	text: "El ingreso ha sido creado correctamente",
+							  	text: "La deuda ha sido creada correctamente",
 							  	showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 							  
 						}).then(function(result){
 
 								if(result.value){   
-								    window.location = "incomes";
+								    window.location = "debts";
 								} 
 						});
 
@@ -98,104 +99,130 @@ class ControllerIncomes{
 
 	}
 	
-	/*=====  End of Agregar ingreso  ======*/
+	/*=====  End of Agregar deuda  ======*/
+
+	/*=======================================
+	=            Finalizar deuda            =
+	=======================================*/
 	
-	/*======================================
-	=            Editar ingreso            =
-	======================================*/
-	
-	static public function ctrEditIncome(){
+	static public function ctrEndDebt($sdebt){
 
-		if(isset($_POST['editCode'])){
+		$table = "debts";
 
-			if(preg_match('/^[-\\_\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editReference"]) &&
-			   preg_match('/^[0-9.]+$/', $_POST["editValue"]) &&
-			   preg_match('/^[\/\=\\&\\$\\;\\_\\|\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editDescription"])){
+		$date = date('Y-m-d');
 
-			   	$table = "incomes";
+		$data = array("sdebt" => $sdebt,
+					  "date_end" => $date,
+					  "process" =>  0);
 
-			   	$data = array("sincome" => $_POST["editCode"],
-							  "date" => $_POST["editDate"],
-							  "icategory" =>  $_POST["editCategory"],
-							  "iperson" =>  $_POST["editPerson"],
-							  "reference" =>  $_POST["editReference"],
-							  "value" =>  $_POST["editValue"],
-							  "description" =>  $_POST["editDescription"]);
-
-			   	$response = ModelIncomes::mdlEditIncome($table, $data);
-				
-				if($response == "ok"){
-
-					echo'<script>
-
-						swal({
-								type:"success",
-							  	title: "¡CORRECTO!",
-							  	text: "El ingreso ha sido creado correctamente",
-							  	showConfirmButton: true,
-								confirmButtonText: "Cerrar"
-							  
-						}).then(function(result){
-
-								if(result.value){   
-								    window.location = "incomes";
-								} 
-						});
-
-					</script>';
-
-				}
-
-			}else{
-
-				echo '<script>
-
-					swal({
-
-						type:"error",
-						title: "¡CORREGIR!",
-						text: "¡No se permiten caracteres especiales en ninguno de los campos!",
-						showConfirmButton: true,
-						confirmButtonText: "Cerrar"
-
-					}).then(function(result){
-
-						if(result.value){
-
-							history.back();
-
-						}
-
-					});	
-
-				</script>';
-
-			}
-
-		}
-
-	}
-	
-	/*=====  End of Editar ingreso  ======*/
-	
-	/*========================================
-	=            Eliminar ingreso            =
-	========================================*/
-	
-	static public function ctrDeleteIncome($sincome){
-
-		$table = "incomes";
-
-		$data = array("sincome" => $sincome,
-					  "status" =>  0,
-					  "bdelete" =>  1);
-
-		$response = ModelIncomes::mdlDeleteIncome($table, $data);
+		$response = ModelDebts::mdlEndDebt($table, $data);
 
 		return $response;
 
 	}
 	
-	/*=====  End of Eliminar ingreso  ======*/
+	/*=====  End of Finalizar deuda  ======*/
+	
+	/*====================================
+	=            Editar deuda            =
+	====================================*/
+	
+	static public function ctrEditDebt(){
+
+		if(isset($_POST['editCode'])){
+
+			if(preg_match('/^[-\\_\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editDate"]) &&
+			   preg_match('/^[0-9.]+$/', $_POST["editValue"]) &&
+			   preg_match('/^[\/\=\\&\\$\\;\\_\\|\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editDescription"])){
+
+			   	$table = "debts";
+
+			   	$data = array("sdebt" => $_POST['editCode'],
+							  "date" => $_POST["editDate"],
+							  "icategory" =>  $_POST["editCategory"],
+							  "iperson" =>  $_POST["editPerson"],
+							  "value" =>  $_POST["editValue"],
+							  "description" =>  $_POST["editDescription"],
+							  "quota" =>  $_POST["editQuota"]);
+
+			   	$response = ModelDebts::mdlEditDebt($table, $data);
+				
+				if($response == "ok"){
+
+					echo'<script>
+
+						swal({
+								type:"success",
+							  	title: "¡CORRECTO!",
+							  	text: "La deuda ha sido editada correctamente",
+							  	showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+							  
+						}).then(function(result){
+
+								if(result.value){   
+								    window.location = "debts";
+								} 
+						});
+
+					</script>';
+
+				}
+
+			}else{
+
+				echo '<script>
+
+					swal({
+
+						type:"error",
+						title: "¡CORREGIR!",
+						text: "¡No se permiten caracteres especiales en ninguno de los campos!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+
+							history.back();
+
+						}
+
+					});	
+
+				</script>';
+
+			}
+
+		}
+
+	}
+	
+	/*=====  End of Editar deuda  ======*/
+	
+	/*====================================
+	=            Borrar deuda            =
+	====================================*/
+	
+	static public function ctrDeleteDebt($sdebt){
+
+		$table = "debts";
+
+		$date = date('Y-m-d');
+
+		$data = array("sdebt" => $sdebt,
+					  "date_end" => $date,
+					  "process" =>  0,
+					  "status" =>  0,
+					  "bdelete" =>  1);
+
+		$response = ModelDebts::mdlDeleteDebt($table, $data);
+
+		return $response;
+
+	}
+	
+	/*=====  End of Borrar deuda  ======*/
 	
 }
