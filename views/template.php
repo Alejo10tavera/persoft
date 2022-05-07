@@ -167,6 +167,7 @@ if(isset($_SESSION["user"])){
         <script src="views/js/users.js"></script>
         <script src="views/js/expenses.js"></script>
         <script src="views/js/debts.js"></script>
+        <script src="views/js/lends.js"></script>
 
     </body>
     

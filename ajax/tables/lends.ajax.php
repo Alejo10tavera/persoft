@@ -1,7 +1,7 @@
 <?php  
 
-require_once '../../controllers/controller.debts.php';
-require_once '../../models/model.debts.php';
+require_once '../../controllers/controller.lends.php';
+require_once '../../models/model.lends.php';
 
 require_once '../../controllers/controller.categories.php';
 require_once '../../models/model.categories.php';
@@ -10,18 +10,18 @@ require_once '../../controllers/controller.persons.php';
 require_once '../../models/model.persons.php';
 
 
-class TableDebts{
+class TableLends{
 
 	# -----------  Tabla de usuarios  -----------
 	public function viewTable(){
 
-		$table = "debts";
+		$table = "lends";
 		$item = "";
 		$value = "";
 		$item_ = "bdelete";
 		$value_ = 0;
 
-		$response = ControllerDebts::ctrViewData($table, $item, $value, $item_, $value_);
+		$response = ControllerLends::ctrViewData($table, $item, $value, $item_, $value_);
 
 		if(count($response) == 0){
 
@@ -80,7 +80,7 @@ class TableDebts{
 
 					}
 
-					/*=====  Proceso de la deuda  ======*/
+					/*=====  Proceso del prestamo  ======*/
 
 					if($response[$i]["process"] == 0){
 
@@ -92,17 +92,17 @@ class TableDebts{
 
 					}
 
-					/*=====  Estado de la deuda  ======*/
+					/*=====  Estado del prestamo  ======*/
 
 					if($response[$i]["process"] == 1){
 
 						if($response[$i]["status"] == 0){
 
-							$status = "<button class='btn btn-dark btn-sm btnActivate' statusDebt='1' sDebt='".$response[$i]["sdebt"]."'>Inactivo</button>";
+							$status = "<button class='btn btn-dark btn-sm btnActivate' statusLend='1' sLend='".$response[$i]["slend"]."'>Inactivo</button>";
 
 						}else{
 
-							$status = "<button class='btn btn-success btn-sm btnActivate' statusDebt='0' sDebt='".$response[$i]["sdebt"]."'>Activo</button>";
+							$status = "<button class='btn btn-success btn-sm btnActivate' statusLend='0' sLend='".$response[$i]["slend"]."'>Activo</button>";
 						}
 
 					}else{
@@ -115,24 +115,23 @@ class TableDebts{
 
 					if($response[$i]["process"] == 1){
 
-						$actions = "<ul class='table-controls'><li><button type='button' class='btn btn-outline-info btn-rounded btn-sm mb-2 mr-2 endDebt' sdebt='".$response[$i]["sdebt"]."'><i class='far fa-money-bill-alt'></i></button></li><li><button type='button' class='btn btn-outline-warning btn-rounded btn-sm mb-2 mr-2 editDebt' data-toggle='modal' data-target='.modal-edit-debt' sdebt='".$response[$i]["sdebt"]."'><i class='far fa-edit'></i></button></li><li><button type='button' class='btn btn-outline-danger btn-rounded btn-sm mb-2 mr-2 deleteDebt' sdebt='".$response[$i]["sdebt"]."'><i class='far fa-trash-alt'></i></button></li></ul>";
+						$actions = "<ul class='table-controls'><li><button type='button' class='btn btn-outline-info btn-rounded btn-sm mb-2 mr-2 endLend' slend='".$response[$i]["slend"]."'><i class='far fa-money-bill-alt'></i></button></li><li><button type='button' class='btn btn-outline-warning btn-rounded btn-sm mb-2 mr-2 editLend' data-toggle='modal' data-target='.modal-edit-lend' slend='".$response[$i]["slend"]."'><i class='far fa-edit'></i></button></li><li><button type='button' class='btn btn-outline-danger btn-rounded btn-sm mb-2 mr-2 deleteLend' slend='".$response[$i]["slend"]."'><i class='far fa-trash-alt'></i></button></li></ul>";
 
 					}else{
 
-						$actions = "<ul class='table-controls'><li><button type='button' class='btn btn-outline-danger btn-rounded btn-sm mb-2 mr-2 deleteDebt' sdebt='".$response[$i]["sdebt"]."'><i class='far fa-trash-alt'></i></button></li></ul>";
+						$actions = "<ul class='table-controls'><li><button type='button' class='btn btn-outline-danger btn-rounded btn-sm mb-2 mr-2 deleteLend' slend='".$response[$i]["slend"]."'><i class='far fa-trash-alt'></i></button></li></ul>";
 
 					}
-
+					
 					$dataJson .='[
 
 						"'.($i+1).'",
-						"'.$response[$i]["sdebt"].'",
+						"'.$response[$i]["slend"].'",
 						"'.$response[$i]["date"].'",
 						"'.$category.'",
 						"'.$person.'",
 						"'.number_format($response[$i]["value"],2,",",".").'",
 						"'.$response[$i]["description"].'",
-						"'.$response[$i]["quota"].'",
 						"'.$process.'",
 						"'.$response[$i]["date_end"].'",
 						"'.$status.'",
@@ -153,5 +152,5 @@ class TableDebts{
 }
 
 # -----------  Tabla de usuarios  -----------
-$table = new TableDebts();
+$table = new TableLends();
 $table -> viewTable();

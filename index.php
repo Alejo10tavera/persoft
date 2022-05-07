@@ -20,5 +20,8 @@ require_once "models/model.categories.php";
 require_once "controllers/controller.debts.php";
 require_once "models/model.debts.php";
 
+require_once "controllers/controller.lends.php";
+require_once "models/model.lends.php";
+
 $template = new ControllerTemplate();
 $template -> ctrTemplate();

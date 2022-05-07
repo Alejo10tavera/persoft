@@ -14,7 +14,7 @@
                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                     <div class="user-profile-section">
                         <div class="media mx-auto">
-                            <img src="views/assets/img/90x90.jpg" class="img-fluid mr-2" alt="avatar">
+                            <img src="views/assets/img/users/default.png" class="img-fluid mr-2" alt="avatar">
                             <div class="media-body">
                                 <h5><?php echo $suser["name"] ?></h5>
                                 <?php if ($suser["type_user"] == 1): ?>

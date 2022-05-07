@@ -5,7 +5,7 @@
         <ul class="navbar-nav theme-brand flex-row  text-center">
             <li class="nav-item theme-logo">
                 <a href="dashboard-v1">
-                    <img src="views/assets/img/90x90.jpg" class="navbar-logo" alt="logo">
+                    <img src="views/assets/img/template/cork-logo.png" class="navbar-logo" alt="logo">
                 </a>
             </li>
             <li class="nav-item theme-text">
