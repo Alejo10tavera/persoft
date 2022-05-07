@@ -24,6 +24,7 @@ if(isset($_SESSION["user"])){
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="views/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <link href="views/assets/css/pages/error/style-400.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -104,7 +105,6 @@ if(isset($_SESSION["user"])){
                            $_GET["route"] == "expenses" ||
                            $_GET["route"] == "debts" ||
                            $_GET["route"] == "lends" ||
-                           $_GET["route"] == "goals" ||
                            $_GET["route"] == "categories" ||
                            $_GET["route"] == "persons" ||
                            $_GET["route"] == "users"){
